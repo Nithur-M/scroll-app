@@ -9,10 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.3.7",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/inter": "^4.5.14",
+    "@fontsource/montserrat": "^4.5.13",
+    "@fontsource/open-sans": "^4.5.13",
+    "@tiptap/extension-highlight": "^2.0.0-beta.202",
+    "@tiptap/extension-text-align": "^2.0.0-beta.202",
+    "@tiptap/extension-underline": "^2.0.0-beta.202",
+    "@tiptap/react": "^2.0.0-beta.202",
+    "@tiptap/starter-kit": "^2.0.0-beta.202",
+    "chakra-react-select": "^4.4.0",
+    "dom-to-image": "^2.6.0",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^6.5.1",
     "next": "13.0.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0"
   }
 }
