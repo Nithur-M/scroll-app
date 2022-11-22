@@ -1,10 +1,11 @@
 import { ChakraProvider,  extendTheme } from '@chakra-ui/react';
 import Layout from '../Components/Layout';
-import "@fontsource/open-sans"
-import "@fontsource/open-sans/300.css";
-import "@fontsource/open-sans/400.css";
-import "@fontsource/open-sans/500.css";
-import "@fontsource/open-sans/600.css";
+import "@fontsource/poppins"
+import "@fontsource/poppins/100.css";
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
 import "@fontsource/open-sans/700.css";
 import "@fontsource/open-sans/800.css";
 
@@ -16,8 +17,8 @@ function MyApp({ Component, pageProps }) {
   
   const customTheme = extendTheme({
     fonts: {
-      heading: `'Open Sans', sans-serif`,
-      body: `'Open Sans', sans-serif`,
+      heading: `'Poppins', sans-serif`,
+      body: `'Poppins', sans-serif`,
     },
     colors: {
       brand: {
@@ -38,12 +39,18 @@ function MyApp({ Component, pageProps }) {
         // styles for the `body`
         body: {
           h: '100%',
-          backgroundColor: '#DFDBE5'
+          fontWeight: '300',
+          fontSize: '18',
+          backgroundColor: '#D8D9CF'
           //backgroundColor: '#F0F2B6',
           // backgroundImage: '/planet-earth-global-svgrepo-com.svg',
 
           // backgroundSize: '250px',
           // backgroundPosition: '300px 0px',
+        },
+        'h1, h2, h3, h4, h5, h6': {
+          fontSize: 'revert',
+          fontWeight: 'revert'
         }
       }
     }

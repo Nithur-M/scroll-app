@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Grid, GridItem, Button, Circle, Text } from '@chakra-ui/react'
+import { Flex, Grid, GridItem, Button, Circle, Text, Heading } from '@chakra-ui/react'
 
 import { AiOutlineItalic, AiOutlineBold, AiOutlineUnderline, AiOutlineHighlight, AiOutlineAlignLeft, AiOutlineAlignRight, AiOutlineAlignCenter, AiOutlineOrderedList, AiOutlineUnorderedList, AiOutlineDownload } from "react-icons/ai";
 import { GoQuote } from 'react-icons/go';
@@ -28,11 +28,11 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
         }),
         menu: base => ({
             ...base,
-            fontWeight: '600',
+            fontWeight: '300',
             mt: 0,
             boxShadow: '1px 5px 10px rgb(0 0 0 / 0.2)',
             borderRadius: 'lg'
-        }),        
+        }) 
     };
 
     const onItalicClick = () => {
@@ -78,9 +78,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
     }
 
     const onHeadingClick = (e) => {
-        console.log(e.value)
-        console.log(editor.getHTML())
-        editor.chain().focus().toggleHeading({ level: 1 }).run()
+        editor.chain().focus().toggleHeading({ level: e.value }).run()
     }
 
     var scale = 3;
@@ -115,84 +113,89 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                         chakraStyles={chakraStyles}
                         components={customComponents}
                         selectedOptionStyle="check"
-                        defaultValue={{label: "Heading", value: "H1"}}
+                        defaultValue={{label: "Heading 1", value: "H1"}}
                         options={[
                         {
-                            label: "Heading",
-                            value: '1',
+                            label: "Heading 1",
+                            value: 1,
                             isFixed: true,
-                            isActive: true
+                            isActive: editor.isActive('heading', { level: 1 })
                         },
                         {
-                            label: "Heading2",
-                            value: '2',
+                            label: "Heading 2",
+                            value: 2,
                             isFixed: true,
+                            isActive: editor.isActive('heading', { level: 2 })
                         },
                         {
-                            label: "Heading3",
-                            value: '3',
+                            label: "Heading 3",
+                            value: 3,
                             isFixed: true,
+                            isActive: editor.isActive('heading', { level: 3 })
                         },
                         {
-                            label: "Heading4",
-                            value: '4',
+                            label: "Heading 4",
+                            value: 4,
                             isFixed: true,
+                            isActive: editor.isActive('heading', { level: 4 })
                         },
                         {
-                            label: "Heading5",
-                            value: '5',
+                            label: "Heading 5",
+                            value: 5,
                             isFixed: true,
+                            isActive: editor.isActive('heading', { level: 5 })
                         },
                         {
-                            label: "Heading6",
-                            value: '6',
+                            label: "Heading 6",
+                            value: 6,
                             isFixed: true,
+                            isActive: editor.isActive('heading', { level: 6 })
                         },
                         ]}
                         onChange={onHeadingClick}
                     />
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' isActive={true} onClick={onBoldClick}><AiOutlineBold /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('bold')} onClick={onBoldClick}><AiOutlineBold /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onItalicClick}><AiOutlineItalic /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('italic')} onClick={onItalicClick}><AiOutlineItalic /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onUnderlineClick}><AiOutlineUnderline /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('underline')} onClick={onUnderlineClick}><AiOutlineUnderline /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onHighlightClick}><AiOutlineHighlight /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('highlight')} onClick={onHighlightClick}><AiOutlineHighlight /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onUnorderedListClick}><AiOutlineUnorderedList /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('bulletList')} onClick={onUnorderedListClick}><AiOutlineUnorderedList /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onOrderedListClick}><AiOutlineOrderedList /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('orderedList')} onClick={onOrderedListClick}><AiOutlineOrderedList /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onQuoteClick}><GoQuote /></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive('blockquote')} onClick={onQuoteClick}><GoQuote /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onAlignLeftClick}><AiOutlineAlignLeft/></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'left' })} onClick={onAlignLeftClick}><AiOutlineAlignLeft/></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onAlignCenterClick}><AiOutlineAlignCenter/></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'center' })} onClick={onAlignCenterClick}><AiOutlineAlignCenter/></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' onClick={onAlignRightClick}><AiOutlineAlignRight/></Button>
+                    <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'right' })} onClick={onAlignRightClick}><AiOutlineAlignRight/></Button>
                 </GridItem>
             </Grid>
 
             {/* <Text color="gray">Border</Text>
             <Grid templateColumns='repeat(5, 1fr)' gap={2}>
                 {['tomato', 'blue', 'pink', 'red', 'purple'].map(color => <GridItem><Circle size='6' bg={color} onClick={()=>handleBorderColor(color)} /></GridItem>)}
-            </Grid>
+            </Grid> */}
 
             <Text color="gray">Background</Text>
             <Grid templateColumns='repeat(5, 1fr)' gap={2}>
-                {['tomato', 'blue', 'pink', 'red', 'purple'].map(color => <GridItem><Circle size='6' bg={color} onClick={()=>handleBgColor(color)} /></GridItem>)}
-            </Grid> */}
+                {['white', '#FF7844', '#CBDB57', '#BCEAD5', '#DEBACE'].map(color => <GridItem><Circle size='6' bg={color} onClick={()=>handleBgColor(color)} /></GridItem>)}
+            </Grid>
 
             <Button leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
         </Flex>
@@ -214,7 +217,7 @@ const Home = () => {
           }),
           Underline
         ],
-        content: '<p>Hello World! 🌎️</p>',
+        content: '<h2>A tiny text editor built with social shareability in mind</h2><p></p><ul><li><p>This is a content template.</p><p></p></li><li><p>You can edit this and save it as an image</p><p></p></li><li><p>Why I made this?</p><p></p></li><li><p>To enable creators to share content in a way that actually gets read</p><p></p></li><li><p>It perfectly fits the Twitter image view port</p><p></p></li><li><p>Just drop your content here and generate it as an image</p><p></p></li><li><p>Ill add more templates soon</p><p></p></li><li><p>If you have any template ideas, please let me know</p><p></p></li></ul>',
       })
 
     const handleBorderColorChange = (color) => {
@@ -225,25 +228,12 @@ const Home = () => {
         setBgColor(color);
     }
 
+    
     return(
         <Flex justify="space-evenly" align="center">
-            <Flex>
-                <>hello</>
-            </Flex>
+            
             <Flex w="568px" h="660px" bg={bgColor} p="4" borderRadius="2xl" id="canvas">
-                <Flex direction="column" p="5" w="full" h="full" border="1px" borderColor={borderColor} borderRadius="lg">
-                    {/* <UnorderedList contentEditable={true} fontSize="xl" spacing={3}>
-                        <ListItem>This is a content template</ListItem>
-                        <ListItem>You can edit this and save it as an image</ListItem>
-                        <ListItem>Why I made this?</ListItem>
-                        <ListItem>To enable creators to share content in a way that actually gets read</ListItem>
-                        <ListItem>It perfectly fits the Twitter image viewport</ListItem>
-                        <ListItem>Just drop your content here and generate it as an image</ListItem>
-                        <ListItem>I'll add more templates soon</ListItem>
-                        <ListItem>If you have any template ideas, please let me know</ListItem>
-                        <ListItem>Thanks</ListItem>
-                    </UnorderedList> */}
-
+                <Flex direction="column" p="5" w="full" h="full" borderRadius="lg">
                     <EditorContent editor={editor} />
                 </Flex>
 
