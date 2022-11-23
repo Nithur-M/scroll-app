@@ -14,6 +14,7 @@ import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 
 const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
+    const [bgColor, setBgColor] = useState('white');
     if (!editor) {
         return null
       }
@@ -94,7 +95,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
            }
         })
         .then(function (blob) {
-            window.saveAs(blob, 'my-node.png');
+            window.saveAs(blob, `scroller-app-${new Date().toISOString()}.png`);
         });
     }
 
@@ -103,6 +104,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
     }
 
     const handleBgColor = (color) => {
+        setBgColor(color)
         onBgColorChange(color)
     }
     return (
@@ -194,7 +196,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
 
             <Text color="gray">Background</Text>
             <Grid templateColumns='repeat(5, 1fr)' gap={2}>
-                {['white', '#FF7844', '#CBDB57', '#BCEAD5', '#DEBACE'].map(color => <GridItem><Circle size='6' bg={color} onClick={()=>handleBgColor(color)} /></GridItem>)}
+                {['white', '#FF7844', '#CBDB57', '#BCEAD5', '#DEBACE'].map(color => <GridItem><Circle size='6' bg={color} border={bgColor == color ? '2px' : '0'} borderColor="gray.200" onClick={()=>handleBgColor(color)} /></GridItem>)}
             </Grid>
 
             <Button leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
