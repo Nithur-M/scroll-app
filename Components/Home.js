@@ -53,7 +53,6 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
 
     const onUnderlineClick = () => {
         editor.chain().focus().toggleUnderline().run();
-        //onChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))
     }
 
     const onUnorderedListClick = () => {
@@ -82,7 +81,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
     }
 
     const onHighlightClick = () => {
-        editor.chain().focus().toggleHighlight({ color: 'red'}).run()
+        editor.chain().focus().toggleHighlight({ color: '#ffcc00'}).run()
     }
 
     const onHeadingClick = (e) => {
@@ -253,16 +252,10 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                     <Button colorScheme='gray' isActive={editor.isActive('underline')} onClick={onUnderlineClick}><AiOutlineUnderline /></Button>
                 </GridItem>
                 <GridItem>
-                    <Button colorScheme='gray' isActive={editor.isActive('highlight')} onClick={onHighlightClick}><AiOutlineHighlight /></Button>
-                </GridItem>
-                <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive('bulletList')} onClick={onUnorderedListClick}><AiOutlineUnorderedList /></Button>
                 </GridItem>
                 <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive('orderedList')} onClick={onOrderedListClick}><AiOutlineOrderedList /></Button>
-                </GridItem>
-                <GridItem>
-                    <Button colorScheme='gray' isActive={editor.isActive('blockquote')} onClick={onQuoteClick}><GoQuote /></Button>
                 </GridItem>
                 <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'left' })} onClick={onAlignLeftClick}><AiOutlineAlignLeft/></Button>
@@ -272,6 +265,12 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                 </GridItem>
                 <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'right' })} onClick={onAlignRightClick}><AiOutlineAlignRight/></Button>
+                </GridItem>
+                <GridItem>
+                    <Button colorScheme='gray' isActive={editor.isActive('highlight')} onClick={onHighlightClick}><AiOutlineHighlight /></Button>
+                </GridItem>
+                <GridItem>
+                    <Button colorScheme='gray' isActive={editor.isActive('blockquote')} onClick={onQuoteClick}><GoQuote /></Button>
                 </GridItem>
                 <GridItem></GridItem>
                 <GridItem></GridItem>
@@ -285,8 +284,8 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                 </GridItem>
                 {['#000000', '#b71c1c', '#4a148c', '#1a237e','#01579b',
                     '#004d40', '#003d00', '#bc5100', '#dd2c00', '#870000'].map((color, index) => <GridItem key={'f' + index.toString()} style={{margin: 'auto'}}><Circle size='6' bg={color} border={'0'} borderColor="gray.200" onClick={()=>handleFgColor(color)} /></GridItem>)}
-                <GridItem colSpan={4}>
-                    <Button leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
+                <GridItem colSpan={5}>
+                    <Button w="full" leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
                 </GridItem>
             </Grid>
         </Flex>
@@ -329,7 +328,7 @@ const Home = () => {
     
     return(
         <Flex justify="space-evenly" align="center">
-            <Flex w="568px" h="660px" bg={bgColor} p="4" borderRadius="2xl" id="canvas" marginTop={'4'}>
+            <Flex w="568px" h="660px" bg={bgColor} p="4" borderRadius="2xl" id="canvas">
                 <Flex direction="column" p="5" w="full" h="full" borderRadius="lg" style={{overflow: 'hidden'}}>
                     <EditorContent editor={editor} />
                 </Flex>
