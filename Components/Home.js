@@ -1,5 +1,7 @@
+// noinspection JSValidateTypes
+
 import { useState } from 'react';
-import { Flex, Grid, GridItem, Button, Circle, Text, Heading } from '@chakra-ui/react'
+import { Flex, Grid, GridItem, Button, Circle, Text } from '@chakra-ui/react'
 
 import { AiOutlineItalic, AiOutlineBold, AiOutlineUnderline, AiOutlineHighlight, AiOutlineAlignLeft, AiOutlineAlignRight, AiOutlineAlignCenter, AiOutlineOrderedList, AiOutlineUnorderedList, AiOutlineDownload } from "react-icons/ai";
 import { GoQuote } from 'react-icons/go';
@@ -13,8 +15,13 @@ import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 
+import styles from './Home.module.css';
+import { Color } from '@tiptap/extension-color'
+import {FontFamily} from "@tiptap/extension-font-family";
+import TextStyle from '@tiptap/extension-text-style';
+
 const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
-    const [bgColor, setBgColor] = useState('white');
+    const [bgColor, setBgColor] = useState('#ffffff');
     if (!editor) {
         return null
       }
@@ -25,7 +32,7 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
     const chakraStyles = {
         dropdownIndicator: (provided, state) => ({
             ...provided,
-            background: "white",
+            background: "#ffffff",
         }),
         menu: base => ({
             ...base,
@@ -82,7 +89,30 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
         editor.chain().focus().toggleHeading({ level: e.value }).run()
     }
 
-    var scale = 3;
+    const onFontClick = (e) => {
+        switch (e.value){
+            case 1:
+                editor.chain().focus().unsetFontFamily().run();
+                break;
+            case 2:
+                editor.chain().focus().setFontFamily('Lobster, cursive').run();
+                break;
+            case 3:
+                editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run();
+                break;
+            case 4:
+                editor.chain().focus().setFontFamily('monospace').run();
+                break;
+            case 5:
+                editor.chain().focus().setFontFamily('Dancing Script, cursive').run();
+                break;
+            case 6:
+                editor.chain().focus().setFontFamily('Noto Serif, serif').run();
+                break;
+        }
+    }
+
+    const scale = 3;
     const handleDownload = () => {
         domtoimage.toBlob(document.getElementById('canvas'), {
             width: document.getElementById('canvas').clientWidth * scale,
@@ -107,10 +137,16 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
         setBgColor(color)
         onBgColorChange(color)
     }
+    const handleFgColor = (color) => {
+        editor.chain().focus().setColor(color).run();
+    }
     return (
-        <Flex direction="column" bg="white" w="60" borderRadius="lg" h="max-content" gap="2" p="2">
-            <Grid templateColumns='repeat(4, 1fr)' gap={2} h="52">
-                <GridItem colSpan={4} >
+        <Flex direction="column" bg="white" w="max-content" borderRadius="lg" h="max-content" gap="2" p="2">
+            <Grid templateColumns='repeat(5, 1fr)' gap={2} h="max-content">
+                <GridItem colSpan={5}>
+                    <Text color="gray">Font style</Text>
+                </GridItem>
+                <GridItem colSpan={5} >
                     <Select
                         chakraStyles={chakraStyles}
                         components={customComponents}
@@ -157,6 +193,56 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                         onChange={onHeadingClick}
                     />
                 </GridItem>
+                <GridItem colSpan={5} >
+                    <Select
+                        chakraStyles={chakraStyles}
+                        components={customComponents}
+                        selectedOptionStyle="check"
+                        defaultValue={{label: "Default font", value: "H1"}}
+                        options={[
+                            {
+                                label: "Default font",
+                                value: 1,
+                                isFixed: true,
+                                isActive: editor.isActive()
+                            },
+                            {
+                                label: "Lobster",
+                                value: 2,
+                                isFixed: true,
+                                isActive: editor.isActive('textStyle', { fontFamily: 'Lobster, cursive' })
+                            },
+                            {
+                                label: "Comic Sans",
+                                value: 3,
+                                isFixed: true,
+                                isActive: editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' })
+                            },
+                            {
+                                label: "Monospace",
+                                value: 4,
+                                isFixed: true,
+                                isActive: editor.isActive('textStyle', { fontFamily: 'monospace' })
+                            },
+                            {
+                                label: "Hand Writting",
+                                value: 5,
+                                isFixed: true,
+                                isActive: editor.isActive('textStyle', { fontFamily: 'Dancing Script, cursive' })
+                            },
+                            {
+                                label: "Noto Serif",
+                                value: 6,
+                                isFixed: true,
+                                isActive: editor.isActive('textStyle', { fontFamily: 'Noto Serif, serif' })
+                            },
+                        ]}
+                        onChange={onFontClick}
+                    />
+                </GridItem>
+                <GridItem colSpan={5}>
+                    <Text color="gray">Text style</Text>
+                </GridItem>
                 <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive('bold')} onClick={onBoldClick}><AiOutlineBold /></Button>
                 </GridItem>
@@ -187,19 +273,22 @@ const MenuBar = ({ editor, onSelectBorderColor, onBgColorChange }) => {
                 <GridItem>
                     <Button colorScheme='gray' isActive={editor.isActive({ textAlign: 'right' })} onClick={onAlignRightClick}><AiOutlineAlignRight/></Button>
                 </GridItem>
+                <GridItem></GridItem>
+                <GridItem></GridItem>
+                <GridItem colSpan={5}>
+                    <Text color="gray">Background</Text>
+                </GridItem>
+                {['#ffffff', '#ffcdd2', '#e1bee7', '#c5cae9', '#b3e5fc',
+                    '#b2dfdb', '#dcedc8', '#fff9c4', '#ffe0b2', '#ffccbc'].map((color, index) => <GridItem key={'b' + index.toString()}><Circle style={{margin: 'auto'}} size='6' bg={color} border={bgColor === color ? '2px' : '0'} borderColor="gray.200" onClick={()=>handleBgColor(color)} /></GridItem>)}
+                <GridItem colSpan={5}>
+                    <Text color="gray">Foreground</Text>
+                </GridItem>
+                {['#000000', '#b71c1c', '#4a148c', '#1a237e','#01579b',
+                    '#004d40', '#003d00', '#bc5100', '#dd2c00', '#870000'].map((color, index) => <GridItem key={'f' + index.toString()} style={{margin: 'auto'}}><Circle size='6' bg={color} border={'0'} borderColor="gray.200" onClick={()=>handleFgColor(color)} /></GridItem>)}
+                <GridItem colSpan={4}>
+                    <Button leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
+                </GridItem>
             </Grid>
-
-            {/* <Text color="gray">Border</Text>
-            <Grid templateColumns='repeat(5, 1fr)' gap={2}>
-                {['tomato', 'blue', 'pink', 'red', 'purple'].map(color => <GridItem><Circle size='6' bg={color} onClick={()=>handleBorderColor(color)} /></GridItem>)}
-            </Grid> */}
-
-            <Text color="gray">Background</Text>
-            <Grid templateColumns='repeat(5, 1fr)' gap={2}>
-                {['white', '#FF7844', '#CBDB57', '#BCEAD5', '#DEBACE'].map(color => <GridItem><Circle size='6' bg={color} border={bgColor == color ? '2px' : '0'} borderColor="gray.200" onClick={()=>handleBgColor(color)} /></GridItem>)}
-            </Grid>
-
-            <Button leftIcon={<AiOutlineDownload/>} onClick={handleDownload}>Download</Button>
         </Flex>
     )
 }
@@ -214,10 +303,17 @@ const Home = () => {
           TextAlign.configure({
             types: ['heading', 'paragraph'],
           }),
+          FontFamily.configure({
+            types: ['textStyle'],
+          }),
           Highlight.configure({
             multicolor: true,
           }),
-          Underline
+          Color.configure({
+            types: ['textStyle'],
+          }),
+          Underline,
+          TextStyle
         ],
         content: '<h2>A tiny text editor built with social shareability in mind</h2><p></p><ul><li><p>This is a content template.</p><p></p></li><li><p>You can edit this and save it as an image</p><p></p></li><li><p>Why I made this?</p><p></p></li><li><p>To enable creators to share content in a way that actually gets read</p><p></p></li><li><p>It perfectly fits the Twitter image view port</p><p></p></li><li><p>Just drop your content here and generate it as an image</p><p></p></li><li><p>Ill add more templates soon</p><p></p></li><li><p>If you have any template ideas, please let me know</p><p></p></li></ul>',
       })
@@ -233,9 +329,8 @@ const Home = () => {
     
     return(
         <Flex justify="space-evenly" align="center">
-            
-            <Flex w="568px" h="660px" bg={bgColor} p="4" borderRadius="2xl" id="canvas">
-                <Flex direction="column" p="5" w="full" h="full" borderRadius="lg">
+            <Flex w="568px" h="660px" bg={bgColor} p="4" borderRadius="2xl" id="canvas" marginTop={'4'}>
+                <Flex direction="column" p="5" w="full" h="full" borderRadius="lg" style={{overflow: 'hidden'}}>
                     <EditorContent editor={editor} />
                 </Flex>
 

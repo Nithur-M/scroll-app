@@ -57,11 +57,12 @@ function MyApp({ Component, pageProps }) {
     ,config });
     
   return (
-  <ChakraProvider theme={customTheme}>
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ChakraProvider>
+      <ChakraProvider theme={customTheme}>
+        <Layout>
+
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
   )
 }
 
