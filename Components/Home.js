@@ -6,6 +6,7 @@ import { Flex, Grid, GridItem, Button, Circle, Text } from '@chakra-ui/react'
 import { AiOutlineItalic, AiOutlineBold, AiOutlineUnderline, AiOutlineHighlight, AiOutlineAlignLeft, AiOutlineAlignRight, AiOutlineAlignCenter, AiOutlineOrderedList, AiOutlineUnorderedList, AiOutlineDownload } from "react-icons/ai";
 import { GoQuote } from 'react-icons/go';
 import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 import { Select } from "chakra-react-select";
 
 import { useEditor, EditorContent } from '@tiptap/react';
