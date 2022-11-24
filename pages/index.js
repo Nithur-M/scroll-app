@@ -1,7 +1,9 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Home from '../Components/Home';
+import Head from 'next/head';
+import dynamic from "next/dynamic";
 
+const DynamicComponent = dynamic(() => import('../Components/Home').then((mod) => mod.Home), {
+  ssr: false
+});
 
 export default function Index() {
   return (
@@ -14,8 +16,7 @@ export default function Index() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
           <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
       </Head>
-
-      <Home />
+      <DynamicComponent h="100vh" w="100vw"/>
     </div>
   )
 }
